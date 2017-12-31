@@ -1,0 +1,39 @@
+---
+title: "Capstone Project Presentation"
+author: "Michael Sewerin"
+date: "31 Dezember 2017"
+output: 
+    ioslides_presentation: 
+        widescreen: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Introduction
+
+- The purpose of this project was to build a word prediction algorithm like the one from SwiftKey.
+- The data used to build the prediction algorithm was downloadad from the course homepage and consists of Twitter, News and Blogs in US english.
+- My first approach after cleaning the data (e.g. removing numbers, putting it to lower case, removing graphical signs, ...) was to use the Weka NGramTokenizer to build n-grams for n in (1,2,3,4). But this was really slow and I couldn't use much data to create the ngrams.
+- So I searched for another library and found the quanteda package. With this I was able to use a much bigger sample for the ngram-creation.
+
+## Algorithm
+- Using the n-grams I have built an algorithm that predicts 3 possibilities for the next word. 
+- Since this algorithm is limited to at maximum fourgrams, the last 3 words of the input string are used for the prediction. So if the input string has at least 3 words, I lookup those fourgrams which start with exactly the last three words of the input. Based on the frequency of the possible following words (the 4th word of the fourgram), I select the top 3. 
+- If there was no result, I do the same for the last two words of the input string (which will be looked up in the trigram) and so on. 
+- For empty strings or unknown last words, the best unigrams are returned.
+
+
+## Performance
+- The performance of the algorithm depends a lot on the number of entries the n-grams have.
+- First I used data frames with just one column for the words and one for the frequency of this combination. Then I used a regular expression to lookup the words that start with the last words of the input string. This had a bad performance.
+- My second solution was to split up the n-grams to one column per word, transform it to a data.table and add keys to each column. That improved the performance of looking up the rows that start with the input string a lot.
+- For even better performance I decided to keep only the ngrams that appear at least four time in the sample data. That makes loading of the app a lot faster.
+- The performance on a local PC is great, but on the shinyApps server it gets really slow. 
+
+## App Preview
+
+- I kept the app very simple since I tried to focus on good results for the prediction
+![Preview](C:\Users\misew\Documents\Coursera\Data Science\Capstone Project\app.png)
+- As the description tells, you just need to enter the text, push the button and the prediction will appear in the text box in the main panel

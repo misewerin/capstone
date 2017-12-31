@@ -1,0 +1,13 @@
+name: CapstoneProject
+title: CapstoneProject
+username:
+account: misewerin
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 252692
+bundleId: 1156928
+url: https://misewerin.shinyapps.io/CapstoneProject/
+when: 1514734332.04956
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: server ggg.R
